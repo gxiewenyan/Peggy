@@ -1,0 +1,23 @@
+{
+  "name": "koa2-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gary",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.11",
+    "koa": "^2.5.2",
+    "koa-body": "^4.0.4",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.4",
+    "log4js": "^3.0.2",
+    "mysql2": "^1.5.3",
+    "xlsx": "^0.13.3"
+  }
+}
