@@ -25,7 +25,7 @@ module.exports = (app) => {
 
     router.get('/upload', ExcelController.upload);
 
-    router.post('/upload', ExcelController.handleUpload);
+    router.post('/upload', ExcelController.uploadHandler);
 
     router.get('/query', MysqlController.test);
 

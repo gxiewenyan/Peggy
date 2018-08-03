@@ -1,5 +1,35 @@
-{{#if result}}
-    <h1>success...</h1>
-{{else}}
-    <h1>failed...</h1>
-{{/if}}
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Peggy</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="save_wrapper">
+    <div class="save_button">保存</div>
+</div>
+
+
+<div class="table_wrapper">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {{#each data}}
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#tab{{@index}}" role="tab" aria-controls="tab{{@index}}" aria-selected="true">{{sheetName}}</a>
+            </li>
+        {{/each}}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        {{#each data}}
+            <div class="tab-pane fade" id="tab{{@index}}" role="tabpanel" aria-labelledby="tab{{@index}}-tab">{{{sheetContent}}}</div>
+        {{/each}}
+    </div>
+</div>
+</body>
+</html>
