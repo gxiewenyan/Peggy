@@ -1,0 +1,37 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.save_wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 100%;
+    background: #db7093;
+    z-index: 999;
+}
+.save_button {
+    display: inline-block;
+    height: 20px;
+    margin-top: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+}
+.table_wrapper {
+    width: 2600px;
+    margin-top: 30px;
+    padding: 5px;
+}
+table {
+    width: 100%;
+    border-collapse:collapse;
+}
+
+td {
+    padding: 5px;
+    border: solid 1px #505050;
+}
