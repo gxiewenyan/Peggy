@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+body {
+    padding: 20px 0;
+}
+
 .save_wrapper {
     position: fixed;
     top: 0;
