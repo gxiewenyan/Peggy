@@ -2,7 +2,7 @@ const HomeService = require('../service/home');
 
 module.exports = {
     index: async(ctx, next) => {
-        ctx.response.body = '<h1>index page</h1><a href="/upload">upload</a>';
+        await ctx.render('home');
     },
     home: async(ctx, next) => {
         console.log(ctx.request.query)
