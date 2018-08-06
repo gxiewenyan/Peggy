@@ -23,9 +23,17 @@ module.exports = (app) => {
 
     router.get('/xls', ExcelController.parse);
 
+    // 上传页面
     router.get('/upload', ExcelController.upload);
 
+    // 上传表单提交
     router.post('/upload', ExcelController.uploadHandler);
+
+    // 数据录入页面
+    router.get('/dataInput', MysqlController.dataInputPageHandler);
+
+    // 接受提交数据
+    router.post('/dataSubmit', MysqlController.submitDataHandler);
 
     router.get('/query', MysqlController.test);
 
