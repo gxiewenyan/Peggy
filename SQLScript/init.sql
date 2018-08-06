@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.09 (64 bit)
 MySQL - 8.0.12 : Database - peggy
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -112,7 +113,7 @@ CREATE TABLE `pg_variable_cost_details` (
   `trip` decimal(10,2) DEFAULT NULL COMMENT '差旅费',
   `water_eletric` decimal(10,2) DEFAULT NULL COMMENT '水电费',
   `repair` decimal(10,2) DEFAULT NULL COMMENT '修理费',
-  `Consumable` decimal(10,2) DEFAULT NULL COMMENT '低值易耗品摊销',
+  `consumable` decimal(10,2) DEFAULT NULL COMMENT '低值易耗品摊销',
   `rental` decimal(10,2) DEFAULT NULL COMMENT '租赁费',
   `meeting` decimal(10,2) DEFAULT NULL COMMENT '会议费',
   `advertisement` decimal(10,2) DEFAULT NULL COMMENT '广告费',
