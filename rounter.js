@@ -35,8 +35,6 @@ module.exports = (app) => {
     // 接受提交数据
     router.post('/dataSubmit', MysqlController.submitDataHandler);
 
-    router.get('/query', MysqlController.test);
-
     app.use(router.routes())
         .use(router.allowedMethods())
 };
