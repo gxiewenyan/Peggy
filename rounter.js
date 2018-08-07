@@ -35,6 +35,15 @@ module.exports = (app) => {
     // 接受提交数据
     router.post('/dataSubmit', MysqlController.submitDataHandler);
 
+    // 堆叠柱状图页面
+    router.get('/stackedBar', MysqlController.stakedBarByOfficeHandler);
+
+    // 获取堆叠柱状图数据
+    router.get('/getAnnualCostDataByOfficeId', MysqlController.stackedBarByOfficeInterface);
+
+    // 已录数据页面
+    router.get('/submittedData', MysqlController.submitedDataHandler);
+
     app.use(router.routes())
         .use(router.allowedMethods())
 };

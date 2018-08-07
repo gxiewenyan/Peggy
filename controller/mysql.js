@@ -11,10 +11,14 @@ const pool = mysql.createPool({
 });
 
 module.exports = {
-    dataInputPageHandler: async (ctx, next) => {
+    getAllOffices: async () => {
         let [rows] = await pool.query('SELECT * FROM pg_offices');
 
-        await ctx.render('data_input', rows);
+        return rows;
+    },
+    dataInputPageHandler: async (ctx, next) => {
+        let offices = await module.exports.getAllOffices();
+        await ctx.render('data_input', offices);
     },
     submitDataHandler: async (ctx, next) => {
         let {
@@ -67,7 +71,7 @@ module.exports = {
             variable_cost_other
         } = ctx.request.body;
 
-        let [rows] = await pool.query('SELECT * FROM pg_cost WHERE year = ? AND month = ?', [year, month]);
+        let [rows] = await pool.query('SELECT * FROM pg_cost WHERE year = ? AND month = ? AND office_id = ?', [year, month, office_id]);
 
         let pgCost = {
             office_id: office_id,
@@ -150,5 +154,33 @@ module.exports = {
         }
 
         await ctx.render('data_input_result');
+    },
+    stakedBarByOfficeHandler: async (ctx, next) => {
+        let offices = await module.exports.getAllOffices();
+
+        await ctx.render('stackedBar_by_office', offices);
+    },
+    stackedBarByOfficeInterface: async (ctx, next) => {
+        let officeId = ctx.request.query.officeId,
+            year = ctx.request.query.year;
+
+        // let queryOptions = {
+        //     sql: 'SELECT * FROM pg_cost WHERE office_id = ? AND year = ? ORDER BY MONTH ASC',
+        //     rowsAsArray: false
+        // };
+        let result = await pool.query('SELECT * FROM pg_cost WHERE office_id = ? AND year = ? ORDER BY MONTH ASC' , [officeId, year]);
+
+        await ctx.send({
+            status: "200",
+            msg: 'success',
+            data: {
+                name: "Gary"
+            }
+        });
+    },
+    submitedDataHandler: async (ctx, next) => {
+        let [rows] = await pool.query('SELECT a.year, a.month, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id;');
+
+        await ctx.render('submitted_data', rows);
     }
 };

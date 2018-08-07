@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>已录数据</title>
+</head>
+<body>
+<table border="solid">
+    <thead>
+    <tr>
+        <td>年</td>
+        <td>月</td>
+        <td>科室</td>
+    </tr>
+    </thead>
+<tbody>
+{{#each this}}
+    <tr>
+        <td>{{year}}</td>
+        <td>{{month}}</td>
+        <td>{{name}}</td>
+    </tr>
+{{/each}}
+</tbody>
+</table>
+</body>
+</html>

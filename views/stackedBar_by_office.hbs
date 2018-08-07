@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<div class="container">
+    {{> nav }}
+
+    <form class="form-inline mb-3">
+        <label class="my-1 mr-2" for="year_select">年份</label>
+        <select class="custom-select mr-4" id="year_select">
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+        </select>
+
+        <label class="my-1 mr-2" for="offices_select">科室</label>
+        <select class="custom-select mr-4" id="offices_select">
+            {{#each this}}
+                <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+
+        <button type="button" class="btn btn-primary my-1" id="search_btn">查询</button>
+    </form>
+
+    <div id="chart_container" style="width: 600px;height:400px;"></div>
+</div>
+</body>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/echarts.simple.min.js"></script>
+<script>
+    (function(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart_container'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+
+        $('#search_btn').on('click', function(){
+            $.ajax({
+                url: '/getAnnualCostDataByOfficeId',
+                data: {
+                    year: $('#year_select').val(),
+                    officeId: $('#offices_select').val()
+                },
+                type: 'get',
+                dataType: 'json',
+                success: function(data){
+                    alert(data);
+                    console.log(data);
+                }
+            })
+        });
+    })()
+</script>
+</html>
