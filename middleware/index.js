@@ -12,7 +12,12 @@ module.exports = (app) => {
     app.use(views('views', {
         root: __dirname + '/views',
         extension: 'hbs',
-        map: { hbs: 'handlebars' }
+        map: { hbs: 'handlebars' },
+        options: {
+            partials: {
+                nav: './nav'
+            }
+        }
     }));
 
     app.use(koaBody({
