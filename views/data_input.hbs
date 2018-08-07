@@ -378,6 +378,9 @@
                 totalVal += (inputVal == '' ? 0 : parseFloat(inputVal));
             }
 
+            // 保留2位小数，解决精度问题
+            totalVal = totalVal.toFixed(2);
+
             totalDisplayEle.html(totalVal);
             totalHiddenInput.val(totalVal);
         });
