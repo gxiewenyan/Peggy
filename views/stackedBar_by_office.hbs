@@ -76,6 +76,9 @@
                     }
 
                     var option = {
+                        title: {
+                            text: $('#year_select').find('option:selected').text() + '年' + $('#officesselect').find('option:selected').text() + '每月成本构成'
+                        },
                         tooltip : {
                             trigger: 'axis',
                             axisPointer : {
@@ -83,12 +86,13 @@
                             }
                         },
                         legend: {
-                            data: resp.legend
+                            data: resp.legend,
+                            bottom: '5px'
                         },
                         grid: {
                             left: '3%',
                             right: '4%',
-                            bottom: '3%',
+                            bottom: '10%',
                             containLabel: true
                         },
                         xAxis : [
