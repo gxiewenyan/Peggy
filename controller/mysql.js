@@ -18,6 +18,7 @@ module.exports = {
     },
     getAllCostDataByOfficeYearMonth: async (officeId, year, month) => {
         let sql = 'select ' +
+            'a.id, ' +
             'a.year,a.month,' +
             'a.labour_cost, ' +
             'a.administrative_cost, ' +
@@ -63,6 +64,57 @@ module.exports = {
             'WHERE a.id = b.cost_id AND a.id = c.cost_id AND a.id = d.cost_id AND a.office_id = e.id ' +
             'AND a.office_id = ? AND a.year = ? AND a.month = ?';
         let [rows] = await pool.query(sql, [officeId, year, month]);
+
+        return rows;
+    },
+    getCostDetailsByCostId: async (costId) => {
+        let sql = 'select ' +
+            'a.id, ' +
+            'a.year,a.month,' +
+            'a.labour_cost, ' +
+            'a.administrative_cost, ' +
+            'a.depreciation_cost, ' +
+            'a.variable_cost, ' +
+            'b.salary, ' +
+            'b.social_security, ' +
+            'b.commercial_insurance, ' +
+            'b.allowance, ' +
+            'b.training, ' +
+            'b.trade_union, ' +
+            'b.labor_protection,' +
+            'b.housing, ' +
+            'b.tech_award, ' +
+            'b.non_monetary, ' +
+            'b.other AS labour_other, ' +
+            'c.phone, ' +
+            'c.mobile, ' +
+            'c.post, ' +
+            'c.books, ' +
+            'c.other AS admin_other, ' +
+            'd.trip, ' +
+            'd.water_eletric, ' +
+            'd.repair, ' +
+            'd.consumable, ' +
+            'd.rental, ' +
+            'd.meeting, ' +
+            'd.advertisement, ' +
+            'd.greening, ' +
+            'd.hospitality, ' +
+            'd.decoration, ' +
+            'd.sales_service, ' +
+            'd.consultant, ' +
+            'd.services, ' +
+            'd.sampling, ' +
+            'd.inspection, ' +
+            'd.tax, ' +
+            'd.cleaning, ' +
+            'd.vehicle, ' +
+            'd.other AS variable_other, ' +
+            'e.name ' +
+            'FROM pg_cost a, pg_labour_cost_details b, pg_administrative_cost_details c, pg_variable_cost_details d, pg_offices e ' +
+            'WHERE a.id = b.cost_id AND a.id = c.cost_id AND a.id = d.cost_id AND a.office_id = e.id ' +
+            'AND a.id = ?';
+        let [rows] = await pool.query(sql, costId);
 
         return rows;
     },
@@ -231,8 +283,15 @@ module.exports = {
         });
     },
     submitedDataHandler: async (ctx, next) => {
-        let [rows] = await pool.query('SELECT a.year, a.month, a.labour_cost, a.administrative_cost, a.depreciation_cost, a.variable_cost, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id;');
+        let [rows] = await pool.query('SELECT a.id, a.year, a.month, a.labour_cost, a.administrative_cost, a.depreciation_cost, a.variable_cost, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id;');
 
         await ctx.render('submitted_data', rows);
+    },
+    costDetailsHandler: async (ctx, next) => {
+        let costId = ctx.params.costId;
+
+        let costDetails = await module.exports.getCostDetailsByCostId(costId);
+
+        await ctx.render('cost_details', costDetails[0]);
     }
 };

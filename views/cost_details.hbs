@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>成本详情</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        人工成本（共：{{labour_cost}}元）
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="labour_cost_salary" class="col-sm-2 col-form-label col-form-label-sm">工资(含政府补助）</label>
+                        <div class="col-sm-10">
+                            <input type="number" readonly class="form-control-plaintext form-control-sm" id="labour_cost_salary" name="labour_cost_salary" value="{{salary}}" placeholder="工资(含政府补助）">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_social_security" class="col-sm-2 col-form-label col-form-label-sm">社会保险费用</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_social_security" name="labour_cost_social_security" value="{{social_security}}" placeholder="社会保险费用">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_commercial_insurance" class="col-sm-2 col-form-label col-form-label-sm">商业保险费用</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_commercial_insurance" name="labour_cost_commercial_insurance" value="{{commercial_insurance}}" placeholder="商业保险费用">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_allowance" class="col-sm-2 col-form-label col-form-label-sm">福利费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_allowance" name="labour_cost_allowance" value="{{allowance}}" placeholder="福利费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_training" class="col-sm-2 col-form-label col-form-label-sm">教育培训经费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_training" name="labour_cost_training" value="{{training}}" placeholder="教育培训经费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_trade_union" class="col-sm-2 col-form-label col-form-label-sm">工会经费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_trade_union" name="labour_cost_trade_union" value="{{trade_union}}" placeholder="工会经费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_labor_protection" class="col-sm-2 col-form-label col-form-label-sm">劳动保护费用</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_labor_protection" name="labour_cost_labor_protection" value="{{labor_protection}}" placeholder="劳动保护费用">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_housing" class="col-sm-2 col-form-label col-form-label-sm">住房费用</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_housing" name="labour_cost_housing" value="{{housing}}" placeholder="住房费用">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_tech_award" class="col-sm-2 col-form-label col-form-label-sm">技术奖酬金</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_tech_award" name="labour_cost_tech_award" value="{{tech_award}}" placeholder="技术奖酬金">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_non_monetary" class="col-sm-2 col-form-label col-form-label-sm">非货币福利</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_non_monetary" name="labour_cost_non_monetary" value="{{non_monetary}}" placeholder="非货币福利">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="labour_cost_other" class="col-sm-2 col-form-label col-form-label-sm">其他人工成本</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="labour_cost_other" name="labour_cost_other" value="{{labour_other}}" placeholder="其他人工成本">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        办公费（共：{{administrative_cost}}元）
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="admin_cost_phone" class="col-sm-2 col-form-label col-form-label-sm">固定电话费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="admin_cost_phone" name="admin_cost_phone" value="{{phone}}" placeholder="固定电话费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="admin_cost_mobile" class="col-sm-2 col-form-label col-form-label-sm">手机费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="admin_cost_mobile" name="admin_cost_mobile" value="{{mobile}}" placeholder="手机费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="admin_cost_post" class="col-sm-2 col-form-label col-form-label-sm">邮电费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="admin_cost_post" name="admin_cost_post" value="{{post}}" placeholder="邮电费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="admin_cost_books" class="col-sm-2 col-form-label col-form-label-sm">书报杂志费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="admin_cost_books" name="admin_cost_books" value="{{books}}" placeholder="书报杂志费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="admin_cost_other" class="col-sm-2 col-form-label col-form-label-sm">其他办公费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="admin_cost_other" name="admin_cost_other" value="{{admin_other}}" placeholder="其他办公费">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        折旧费（共：{{depreciation_cost}}元）
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="depreciation_cost" class="col-sm-2 col-form-label col-form-label-sm">折旧费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="depreciation_cost" name="depreciation_cost" value="{{depreciation_cost}}" placeholder="折旧费">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        可变动成本（共：{{variable_cost}}元）
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="variable_cost_trip" class="col-sm-2 col-form-label col-form-label-sm">差旅费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_trip" name="variable_cost_trip" value="{{trip}}" placeholder="差旅费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_water_eletric" class="col-sm-2 col-form-label col-form-label-sm">水电费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_water_eletric" name="variable_cost_water_eletric" value="{{water_eletric}}" placeholder="水电费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_repair" class="col-sm-2 col-form-label col-form-label-sm">修理费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_repair" name="variable_cost_repair" value="{{repair}}" placeholder="修理费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_consumable" class="col-sm-2 col-form-label col-form-label-sm">低值易耗品摊销</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_consumable" name="variable_cost_consumable" value="{{consumable}}" placeholder="低值易耗品摊销">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_rental" class="col-sm-2 col-form-label col-form-label-sm">租赁费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_rental" name="variable_cost_rental" value="{{rental}}" placeholder="租赁费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_meeting" class="col-sm-2 col-form-label col-form-label-sm">会议费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_meeting" name="variable_cost_meeting" value="{{meeting}}" placeholder="会议费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_advertisement" class="col-sm-2 col-form-label col-form-label-sm">广告费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_advertisement" name="variable_cost_advertisement" value="{{advertisement}}" placeholder="广告费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_greening" class="col-sm-2 col-form-label col-form-label-sm">绿化费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_greening" name="variable_cost_greening" value="{{greening}}" placeholder="绿化费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_hospitality" class="col-sm-2 col-form-label col-form-label-sm">业务招待费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_hospitality" name="variable_cost_hospitality" value="{{hospitality}}" placeholder="业务招待费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_decoration" class="col-sm-2 col-form-label col-form-label-sm">装修工程</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_decoration" name="variable_cost_decoration" value="{{decoration}}" placeholder="装修工程">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_sales_service" class="col-sm-2 col-form-label col-form-label-sm">销售服务费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_sales_service" name="variable_cost_sales_service" value="{{sales_service}}" placeholder="销售服务费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_consultant" class="col-sm-2 col-form-label col-form-label-sm">咨询费/审计费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_consultant" name="variable_cost_consultant" value="{{consultant}}" placeholder="咨询费/审计费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_services" class="col-sm-2 col-form-label col-form-label-sm">出版/文献/信息传播/知识产权事务费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_services" name="variable_cost_services" value="{{services}}" placeholder="出版/文献/信息传播/知识产权事务费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_sampling" class="col-sm-2 col-form-label col-form-label-sm">抽样费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_sampling" name="variable_cost_sampling" value="{{sampling}}" placeholder="抽样费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_inspection" class="col-sm-2 col-form-label col-form-label-sm">商品检验费及外协费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_inspection" name="variable_cost_inspection" value="{{inspection}}" placeholder="商品检验费及外协费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_tax" class="col-sm-2 col-form-label col-form-label-sm">税金</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_tax" name="variable_cost_tax" value="{{tax}}" placeholder="税金">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_cleaning" class="col-sm-2 col-form-label col-form-label-sm">卫生保洁费</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_cleaning" name="variable_cost_cleaning" value="{{cleaning}}" placeholder="卫生保洁费">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_vehicle" class="col-sm-2 col-form-label col-form-label-sm">汽车费用</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_vehicle" name="variable_cost_vehicle" value="{{vehicle}}" placeholder="汽车费用">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="variable_cost_other" class="col-sm-2 col-form-label col-form-label-sm">其他（含非常损失）</label>
+                        <div class="col-sm-10">
+                            <input type="number"  class="form-control-plaintext form-control-sm" id="variable_cost_other" name="variable_cost_other" value="{{variable_other}}" placeholder="其他（含非常损失）">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+</html>

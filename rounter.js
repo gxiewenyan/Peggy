@@ -44,6 +44,9 @@ module.exports = (app) => {
     // 已录数据页面
     router.get('/submittedData', MysqlController.submitedDataHandler);
 
+    // 成本详情页面
+    router.get('/costDetails/:costId', MysqlController.costDetailsHandler);
+
     app.use(router.routes())
         .use(router.allowedMethods())
 };
