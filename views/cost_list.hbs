@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>成本一览表</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<div class="container">
+    {{> nav }}
+
+    <form class="form-inline mb-3">
+        <label class="my-1 mr-2" for="year_select">年份</label>
+        <select class="custom-select mr-4" id="year_select">
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+        </select>
+
+        <label class="my-1 mr-2" for="month_select">月份</label>
+        <select class="custom-select mr-4" id="month_select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+
+        <button type="button" class="btn btn-primary my-1" id="search_btn">查询</button>
+    </form>
+
+    <div id="chart_container" style="width: 700px;height:700px;"></div>
+</div>
+</body>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/echarts.common.min.js"></script>
+<script>
+    (function(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart_container'));
+
+        $('#search_btn').on('click', function(){
+            $.ajax({
+                url: '/getCostListData',
+                data: {
+                    year: $('#year_select').val(),
+                    month: $('#month_select').val()
+                },
+                type: 'get',
+                dataType: 'json',
+                success: function(data){
+                    //console.log(data);
+                    var resp = data.data;
+
+                    var series = [],
+                        yAxis = [];
+
+                    for(var i = 0, dataLength = resp.data.length; i < dataLength; i++){
+                        var d = resp.data[i];
+                        yAxis.push(d.name);
+
+                        var seriesData = [];
+                        var legendEn = resp.legend_en;
+                        for(var j = 0, legendLength = resp.legend.length; j < legendLength; j++){
+                            seriesData.push(d[legendEn[j]]);
+                        }
+
+                        series.push({
+                            name: d.name,
+                            type: 'bar',
+                            barWidth: 30,
+                            stack: 'stack',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                            data: seriesData
+                        });
+                    }
+
+                    var option = {
+                        title: {
+                            text: $("#year_select").find("option:selected").text() + '年' + $("#month_select").find("option:selected").text() + '月成本一览表'
+                        },
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {
+                                type : 'shadow'
+                            }
+                        },
+                        legend: {
+                            data: resp.legend,
+                            bottom: '5'
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '10%',
+                            containLabel: true
+                        },
+                        xAxis:  {
+                            type: 'value'
+                        },
+                        yAxis: {
+                            type: 'category',
+                            data: yAxis
+                        },
+                        series : series,
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                saveAsImage: {}
+                            },
+                            right: '10%'
+                        }
+                    };
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
+            })
+        });
+    })()
+</script>
+</html>
