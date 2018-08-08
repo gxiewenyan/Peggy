@@ -11,6 +11,21 @@ module.exports = {
 
         return rows;
     },
+    getCostDataByYearMonth: async (year, month) =>{
+        let sql = 'SELECT ' +
+            'a.labour_cost, ' +
+            'a.administrative_cost, ' +
+            'a.depreciation_cost, ' +
+            'a.variable_cost, ' +
+            'a.year, ' +
+            'a.month, ' +
+            'b.name ' +
+            'FROM pg_cost a, pg_offices b ' +
+            'WHERE a.office_id = b.id AND a.year = ? AND a.month = ?;';
+        let [rows] = await pool.query(sql, [year, month]);
+
+        return rows;
+    },
     getCostDetailsByCostId: async (costId) => {
         let sql = 'select ' +
             'a.id, ' +
@@ -138,8 +153,8 @@ module.exports = {
 
         return result;
     },
-    updateCostByYearMonth: async (cost, year, month) => {
-        let result = pool.query('UPDATE pg_cost SET ? WHERE year = ? AND month = ?', [cost, year, month]);
+    updateCostByOfficeYearMonth: async (cost, officeId, year, month) => {
+        let result = pool.query('UPDATE pg_cost SET ? WHERE office_id = ? AND year = ? AND month = ?', [cost, officeId, year, month]);
 
         return result;
     },
