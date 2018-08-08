@@ -283,7 +283,7 @@ module.exports = {
         });
     },
     submitedDataHandler: async (ctx, next) => {
-        let [rows] = await pool.query('SELECT a.id, a.year, a.month, a.labour_cost, a.administrative_cost, a.depreciation_cost, a.variable_cost, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id;');
+        let [rows] = await pool.query('SELECT a.id, a.year, a.month, a.labour_cost, a.administrative_cost, a.depreciation_cost, a.variable_cost, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id ORDER BY a.year ASC, a.month ASC;');
 
         await ctx.render('submitted_data', rows);
     },
