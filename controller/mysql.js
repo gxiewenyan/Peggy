@@ -116,7 +116,7 @@ module.exports = {
         };
 
         if(rows.length > 0){  // 记录已存在，更新
-            await costService.updateCostByYearMonth(pgCost, year, month);
+            await costService.updateCostByOfficeYearMonth(pgCost, office_id, year, month);
             let costId = await costService.getCostIdByYearMonth(year, month);
 
             await costService.updateLabourCostDetailsByCostId(pgLabourCostDetails, costId);
@@ -160,6 +160,26 @@ module.exports = {
                 legend: constants.COST_TYPE_ARRAY,
                 legend_en: constants.COST_TYPE_COL_NAME_ARRAY,
                 xAxis: constants.ALL_MONTHS,
+                data: rows
+            }
+        });
+    },
+    horizontalStackedBarByYearMonthHandler: async (ctx, next) => {
+
+        await ctx.render('cost_list');
+    },
+    costListDataInterface: async (ctx, next) => {
+        let year = ctx.request.query.year,
+            month = ctx.request.query.month;
+
+        let rows = await costService.getCostDataByYearMonth(year, month);
+
+        await ctx.send({
+            status: '200',
+            msg: 'success',
+            data: {
+                legend: constants.COST_TYPE_ARRAY,
+                legend_en: constants.COST_TYPE_COL_NAME_ARRAY,
                 data: rows
             }
         });
