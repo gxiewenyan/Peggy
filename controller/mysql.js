@@ -1,5 +1,6 @@
 const costService = require('../service/cost');
 const officeService = require('../service/office');
+const constants = require('../constants');
 
 module.exports = {
     dataInputPageHandler: async (ctx, next) => {
@@ -150,17 +151,16 @@ module.exports = {
         let officeId = ctx.request.query.officeId,
             year = ctx.request.query.year;
 
-        // let queryOptions = {
-        //     sql: 'SELECT * FROM pg_cost WHERE office_id = ? AND year = ? ORDER BY MONTH ASC',
-        //     rowsAsArray: false
-        // };
-        // let result = await pool.query('SELECT * FROM pg_cost WHERE office_id = ? AND year = ? ORDER BY MONTH ASC' , [officeId, year]);
+        let rows = await costService.getCostDataByOfficeYear(officeId, year);
 
         await ctx.send({
             status: "200",
             msg: 'success',
             data: {
-                name: "Gary"
+                legend: constants.COST_TYPE_ARRAY,
+                legend_en: constants.COST_TYPE_COL_NAME_ARRAY,
+                xAxis: constants.ALL_MONTHS,
+                data: rows
             }
         });
     },

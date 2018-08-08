@@ -1,6 +1,11 @@
 const pool = require('./pool');
 
 module.exports = {
+    getCostDataByOfficeYear: async (officeId, year) => {
+        let [rows] = await pool.query('SELECT * FROM pg_cost WHERE office_id = ? AND year = ? ORDER BY MONTH ASC' , [officeId, year]);
+
+        return rows;
+    },
     getCostDataByOfficeYearMonth: async (officeId, year, month) =>{
         let [rows] = await pool.query('SELECT * FROM pg_cost WHERE year = ? AND month = ? AND office_id = ?', [year, month, officeId]);
 
