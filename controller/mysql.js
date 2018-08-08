@@ -164,7 +164,7 @@ module.exports = {
             }
         });
     },
-    horizontalStackedBarByYearMonthHandler: async (ctx, next) => {
+    costListHandler: async (ctx, next) => {
 
         await ctx.render('cost_list');
     },

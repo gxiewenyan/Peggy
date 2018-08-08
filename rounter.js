@@ -46,7 +46,7 @@ module.exports = (app) => {
     router.get('/stackedBar', MysqlController.stakedBarByOfficeHandler);
 
     // 成本一览表页面
-    router.get('/costList', MysqlController.horizontalStackedBarByYearMonthHandler);
+    router.get('/costList', MysqlController.costListHandler);
 
 
     /*  ------------- 接口 ------------- */
