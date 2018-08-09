@@ -37,6 +37,7 @@ module.exports = (app) => {
 
     // 已录数据页面
     router.get('/submittedData', MysqlController.submitedDataHandler);
+    router.post('/submittedData', MysqlController.submitedDataHandler);
 
     // 成本详情页面
     router.get('/costDetails/:costId', MysqlController.costDetailsHandler);
@@ -55,6 +56,9 @@ module.exports = (app) => {
 
     // 获取成本一览表数据
     router.get('/getCostListData', MysqlController.costListDataInterface);
+
+    // 获取成本数据
+    router.get('/getCostData', MysqlController.costDataInterface);
 
     app.use(router.routes())
         .use(router.allowedMethods())

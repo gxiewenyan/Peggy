@@ -1,4 +1,5 @@
 const pool = require('./pool');
+const constants = require('../constants');
 
 module.exports = {
     getCostDataByOfficeYear: async (officeId, year) => {
@@ -30,6 +31,7 @@ module.exports = {
         let sql = 'select ' +
             'a.id, ' +
             'a.year,a.month,' +
+            'a.total_cost, ' +
             'a.labour_cost, ' +
             'a.administrative_cost, ' +
             'a.depreciation_cost, ' +
@@ -81,6 +83,7 @@ module.exports = {
         let sql = 'select ' +
             'a.id, ' +
             'a.year,a.month,' +
+            'a.total_cost, ' +
             'a.labour_cost, ' +
             'a.administrative_cost, ' +
             'a.depreciation_cost, ' +
@@ -129,7 +132,33 @@ module.exports = {
         return rows;
     },
     getAllCostData: async () => {
-        let [rows] = await pool.query('SELECT a.id, a.year, a.month, a.labour_cost, a.administrative_cost, a.depreciation_cost, a.variable_cost, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id ORDER BY a.year ASC, a.month ASC;');
+        let [rows] = await pool.query('SELECT a.id, a.year, a.month, a.total_cost, a.labour_cost, a.administrative_cost, a.depreciation_cost, a.variable_cost, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id ORDER BY a.year ASC, a.month ASC;');
+
+        return rows;
+    },
+    getCostDataRowCountByOfficeYearMonth: async (officeId, year, month) => {
+        let officeIdClause = officeId == '-1' ? '' : ` AND office_id = ${officeId} `;
+        let yearClause = year == '-1' ? '' : ` AND year = ${year} `;
+        let monthClause = month == '-1' ? '' : ` AND month = ${month} `;
+
+        let sql = `SELECT COUNT(id) AS rowCount FROM pg_cost WHERE 1=1 ${officeIdClause} ${yearClause} ${monthClause};`;
+        let rows = await pool.query(sql);
+
+        return rows[0][0].rowCount;
+    },
+    getCostDataByOfficeYearMonthPage: async (officeId, year, month, start) => {
+        let officeIdClause = officeId == '-1' ? '' : ` AND office_id = ${officeId} `;
+        let yearClause = year == '-1' ? '' : ` AND year = ${year} `;
+        let monthClause = month == '-1' ? '' : ` AND month = ${month} `;
+
+        let limitClause = '';
+        if(start != null && start != undefined){
+            limitClause = ` LIMIT ${start}, ${constants.PAGE_SIZE}`;
+        }
+
+        let sql = `SELECT a.id, a.year, a.month, a.total_cost, a.labour_cost, a.administrative_cost, a.depreciation_cost, a.variable_cost, b.name FROM pg_cost a, pg_offices b WHERE a.office_id = b.id ${officeIdClause} ${yearClause} ${monthClause} ORDER BY a.year ASC, a.month ASC ${limitClause};`;
+        console.log(sql);
+        let [rows] = await pool.query(sql);
 
         return rows;
     },
