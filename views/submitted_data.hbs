@@ -13,12 +13,53 @@
 <body>
 <div class="container">
 {{> nav }}
-<table class="table table-striped">
+
+<form class="form-inline mb-3" method="post" action="submittedData">
+    <label class="my-1 mr-2" for="year_select">年份</label>
+    <select class="custom-select mr-4" id="year_select" name="year">
+        <option value="-1">全部</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+    </select>
+
+    <label class="my-1 mr-2" for="month_select">月份</label>
+    <select class="custom-select mr-4" id="month_select" name="month">
+        <option value="-1">全部</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+    </select>
+
+    <label class="my-1 mr-2" for="office_select">科室</label>
+    <select class="custom-select mr-4" id="office_select" name="officeId">
+        <option value="-1">全部</option>
+        {{#each offices}}
+            <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="hidden" name="pageNum" value="1">
+
+    <button type="submit" class="btn btn-primary my-1" id="search_btn">查询</button>
+</form>
+
+<table class="table table-striped" id="costDataTable">
     <thead class="thead-light">
     <tr>
         <th>年份</th>
         <th>月份</th>
         <th>科室</th>
+        <th>总成本</th>
         <th>人工成本</th>
         <th>办公费</th>
         <th>折旧费</th>
@@ -26,12 +67,13 @@
         <th></th>
     </tr>
     </thead>
-    <tbody>
-    {{#each this}}
+    <tbody id="costDataTableBody">
+    {{#each cost}}
     <tr>
         <td>{{year}}</td>
         <td>{{month}}</td>
         <td>{{name}}</td>
+        <td>{{total_cost}}</td>
         <td>{{labour_cost}}</td>
         <td>{{administrative_cost}}</td>
         <td>{{depreciation_cost}}</td>
@@ -43,8 +85,40 @@
     {{/each}}
     </tbody>
 </table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end" id="paginationContainer">
+        {{#each pages}}
+        <li class="page-item {{clazz}}" page-num="{{number}}"><a class="page-link" href="javascript:void(0);">{{number}}</a></li>
+        {{/each}}
+    </ul>
+    {{#with queryParams}}
+    <form class="form-inline mb-3" method="post" action="submittedData" id="form">
+        <input type="hidden" name="officeId" value="{{officeId}}">
+        <input type="hidden" name="year" value="{{year}}">
+        <input type="hidden" name="month" value="{{month}}">
+        <input type="hidden" name="pageNum" value="" id="pageNumInput">
+    </form>
+    {{/with}}
+</nav>
 </div>
 </body>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/peggy.js"></script>
+<script>
+    (function(){
+        {{#with queryParams}}
+        $('#year_select').val({{year}});
+        $('#month_select').val({{month}});
+        $('#office_select').val({{officeId}});
+        {{/with}}
+
+        $('.inactive', '#paginationContainer').on('click', function(){
+            var self = $(this);
+            $('#pageNumInput').val(self.attr('page-num'));
+            $('#form').submit();
+        });
+    })()
+</script>
 </html>

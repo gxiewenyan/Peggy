@@ -185,9 +185,66 @@ module.exports = {
         });
     },
     submitedDataHandler: async (ctx, next) => {
-        let rows = await costService.getAllCostData();
+        let officeId = '-1',
+            year = '-1',
+            month = '-1';
 
-        await ctx.render('submitted_data', rows);
+        if(ctx.request && ctx.request.body){
+            officeId = ctx.request.body.officeId || '-1';
+            year = ctx.request.body.year || '-1';
+            month = ctx.request.body.month || '-1';
+            pageNum = ctx.request.body.pageNum || 1;
+        }
+
+        let start = (pageNum - 1) * constants.PAGE_SIZE;
+
+        let offices = await officeService.getAllOffices();
+        let rows = await costService.getCostDataByOfficeYearMonthPage(officeId, year, month, start);
+        let rowCount = await costService.getCostDataRowCountByOfficeYearMonth(officeId, year, month);
+
+        let pageArray = [];
+        for(let i = 0; i < Math.ceil(rowCount/constants.PAGE_SIZE); i++){
+            let clazz =  (i+1) == pageNum ? 'active' : 'inactive';
+            pageArray.push({
+                number: i + 1,
+                clazz: clazz
+            });
+        }
+
+        let renderData = {
+            offices: offices,
+            cost: rows,
+            pages: pageArray,
+            queryParams: {
+                officeId: officeId,
+                year: year,
+                month: month
+            }
+        };
+        await ctx.render('submitted_data', renderData);
+    },
+    costDataInterface: async (ctx, next) => {
+        let officeId = ctx.request.query.officeId,
+            year = ctx.request.query.year,
+            month = ctx.request.query.month,
+            pageNum = ctx.request.query.pageNum;
+
+        let start = (pageNum - 1) * constants.PAGE_SIZE;
+
+        let rows = await costService.getCostDataByOfficeYearMonthPage(officeId, year, month, start);
+        let rowCount = await costService.getCostDataRowCountByOfficeYearMonth(officeId, year, month);
+
+        await ctx.send({
+            status: '200',
+            msg: 'success',
+            data: {
+                data: rows,
+                pager: {
+                    pageNum: pageNum,
+                    pageCount: Math.ceil(rowCount/constants.PAGE_SIZE)
+                }
+            }
+        });
     },
     costDetailsHandler: async (ctx, next) => {
         let costId = ctx.params.costId;
