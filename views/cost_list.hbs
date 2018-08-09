@@ -67,29 +67,24 @@
                     var series = [],
                         yAxis = [];
 
+                    for(var i = 0, legendLength = resp.legend.length; i < legendLength; i++){
+                        series.push({
+                            name: resp.legend[i],
+                            type: 'bar',
+                            stack: 'stack',
+                            data: []
+                        });
+                    }
+
                     for(var i = 0, dataLength = resp.data.length; i < dataLength; i++){
                         var d = resp.data[i];
                         yAxis.push(d.name);
 
-                        var seriesData = [];
                         var legendEn = resp.legend_en;
-                        for(var j = 0, legendLength = resp.legend.length; j < legendLength; j++){
-                            seriesData.push(d[legendEn[j]]);
+                        for(var j = 0, legendEnLength = legendEn.length; j < legendLength; j++){
+                            series[j].data.push(d[legendEn[j]]);
                         }
 
-                        series.push({
-                            name: d.name,
-                            type: 'bar',
-                            //barWidth: 30,
-                            stack: 'stack',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'insideRight'
-                                }
-                            },
-                            data: seriesData
-                        });
                     }
 
                     var option = {
