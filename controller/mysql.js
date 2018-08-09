@@ -151,7 +151,8 @@ module.exports = {
         let officeId = ctx.request.query.officeId,
             year = ctx.request.query.year;
 
-        let rows = await costService.getCostDataByOfficeYear(officeId, year);
+        let rows17 = await costService.getCostDataByOfficeYear(officeId, 2017);
+        let rows18 = await costService.getCostDataByOfficeYear(officeId, 2018);
 
         await ctx.send({
             status: "200",
@@ -160,7 +161,8 @@ module.exports = {
                 legend: constants.COST_TYPE_ARRAY,
                 legend_en: constants.COST_TYPE_COL_NAME_ARRAY,
                 xAxis: constants.ALL_MONTHS,
-                data: rows
+                data17: rows17,
+                data18: rows18
             }
         });
     },

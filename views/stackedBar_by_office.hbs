@@ -55,29 +55,58 @@
                     //console.log(data);
                     var resp = data.data;
 
+                    var legend17 = [],
+                        legend18 = [];
+                    for(var i = 0, resplegendLength = resp.legend.length; i < resplegendLength; i++){
+                        var l = resp.legend[i];
+                        legend17.push(l + '2017');
+                        legend18.push(l + '2018');
+                    }
+                    var legend = legend17.concat(legend18);
+                    var legend_en = resp.legend_en.concat(resp.legend_en);
+                    var colors = ['#c23531','#2f4554','#9C27B0', '#36B022','#c23531','#2f4554','#9C27B0', '#36B022'];
+
                     var series = [];
-                    for(var i = 0, legendLength = resp.legend.length; i < legendLength; i++){
+                    for(var i = 0, legendLength = legend.length; i < legendLength; i++){
+                        var is17 = !!(legend[i].indexOf('17') != -1)
                         series.push({
-                            name: resp.legend[i],
-                            name_en: resp.legend_en[i],
+                            name: legend[i],
+                            name_en: legend_en[i],
                             type: 'bar',
-                            stack: 'stack',
+                            stack: is17 ? 'stack17' : 'stack18',
+                            itemStyle: {
+                                color: colors[i],
+                                opacity: is17 ? '.3' :'1'
+                            },
                             data: []
                         });
                     }
 
-                    for(var j = 0, dataLength = resp.data.length; j < dataLength; j++){
-                        var d = resp.data[j];
+                    for(var j = 0, data17Length = resp.data17.length; j < data17Length; j++){
+                        var d17 = resp.data17[j];
                         for(var k = 0, seriesLength = series.length; k < seriesLength; k++){
                             var s = series[k];
 
-                            s.data.push(d[s.name_en]);
+                            if(s.name.indexOf('17') == -1) { continue; }
+
+                            s.data.push(d17[s.name_en]);
+                        }
+                    }
+
+                    for(var l = 0, data18Length = resp.data18.length; l < data18Length; l++){
+                        var d18 = resp.data18[l];
+                        for(var m = 0, seriesLength = series.length; m < seriesLength; m++){
+                            var s = series[m];
+
+                            if(s.name.indexOf('18') == -1) { continue; }
+
+                            s.data.push(d18[s.name_en]);
                         }
                     }
 
                     var option = {
                         title: {
-                            text: $('#year_select').find('option:selected').text() + '年' + $('#officesselect').find('option:selected').text() + '每月成本构成'
+                            text: $('#officesselect').find('option:selected').text() + '同期成本对比'
                         },
                         tooltip : {
                             trigger: 'axis',
@@ -86,7 +115,7 @@
                             }
                         },
                         legend: {
-                            data: resp.legend,
+                            data: legend,
                             bottom: '5px'
                         },
                         grid: {
