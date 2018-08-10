@@ -179,14 +179,18 @@ module.exports = {
         let year = ctx.request.query.year,
             month = ctx.request.query.month;
 
-        let rows = await costService.getCostDataByYearMonth(year, month);
+        // let rows = await costService.getCostDataByYearMonth(year, month);
+        let rows = await costService.getCostDataAndConsumableByYearMonth(year, month);
 
         await ctx.send({
             status: '200',
             msg: 'success',
             data: {
-                legend: constants.COST_TYPE_ARRAY,
-                legend_en: constants.COST_TYPE_COL_NAME_ARRAY,
+                /*legend: constants.COST_TYPE_ARRAY,
+                legend_en: constants.COST_TYPE_COL_NAME_ARRAY,*/
+                legend: constants.COMPARISON_CHART_LEGEND,
+                legend_en: constants.COMPARISON_CHART_LEGEND_EN,
+                barColors: constants.BAR_COLORS,
                 data: rows
             }
         });

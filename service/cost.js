@@ -39,6 +39,22 @@ module.exports = {
 
         return rows;
     },
+    getCostDataAndConsumableByYearMonth: async (year, month) =>{
+        let sql = 'SELECT ' +
+            'a.labour_cost, ' +
+            'a.administrative_cost, ' +
+            'a.depreciation_cost, ' +
+            '(a.variable_cost - c.consumable) AS variable_cost, ' +
+            'a.year, ' +
+            'a.month, ' +
+            'b.name, ' +
+            'c.consumable ' +
+            'FROM pg_cost a, pg_offices b, pg_variable_cost_details c ' +
+            'WHERE a.office_id = b.id AND a.id = c.cost_id AND a.year = ? AND a.month = ?;';
+        let [rows] = await pool.query(sql, [year, month]);
+
+        return rows;
+    },
     getCostDetailsByCostId: async (costId) => {
         let sql = 'select ' +
             'a.id, ' +

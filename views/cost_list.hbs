@@ -64,6 +64,8 @@
                     //console.log(data);
                     var resp = data.data;
 
+                    var colors = resp.barColors;
+
                     var series = [],
                         yAxis = [];
 
@@ -71,6 +73,9 @@
                         series.push({
                             name: resp.legend[i],
                             type: 'bar',
+                            itemStyle: {
+                                color: colors[i]
+                            },
                             stack: 'stack',
                             data: []
                         });
