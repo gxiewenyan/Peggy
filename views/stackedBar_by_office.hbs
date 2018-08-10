@@ -15,11 +15,6 @@
     {{> nav }}
 
     <form class="form-inline mb-3">
-        <label class="my-1 mr-2" for="year_select">年份</label>
-        <select class="custom-select mr-4" id="year_select">
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
-        </select>
 
         <label class="my-1 mr-2" for="offices_select">科室</label>
         <select class="custom-select mr-4" id="offices_select">
@@ -46,7 +41,6 @@
             $.ajax({
                 url: '/getAnnualCostDataByOfficeId',
                 data: {
-                    year: $('#year_select').val(),
                     officeId: $('#offices_select').val()
                 },
                 type: 'get',
@@ -59,8 +53,8 @@
                         legend18 = [];
                     for(var i = 0, resplegendLength = resp.legend.length; i < resplegendLength; i++){
                         var l = resp.legend[i];
-                        legend17.push(l + '2017');
-                        legend18.push(l + '2018');
+                        legend17.push('2017' + l);
+                        legend18.push('2018' + l);
                     }
                     var legend = legend17.concat(legend18);
                     var legend_en = resp.legend_en.concat(resp.legend_en);

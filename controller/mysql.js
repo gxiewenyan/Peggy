@@ -148,8 +148,7 @@ module.exports = {
         await ctx.render('stackedBar_by_office', offices);
     },
     stackedBarByOfficeInterface: async (ctx, next) => {
-        let officeId = ctx.request.query.officeId,
-            year = ctx.request.query.year;
+        let officeId = ctx.request.query.officeId;
 
         /*let rows17 = await costService.getCostDataByOfficeYear(officeId, 2017);
         let rows18 = await costService.getCostDataByOfficeYear(officeId, 2018);*/
