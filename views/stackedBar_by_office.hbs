@@ -64,7 +64,7 @@
                     }
                     var legend = legend17.concat(legend18);
                     var legend_en = resp.legend_en.concat(resp.legend_en);
-                    var colors = ['#c23531','#0032C6','#9C27B0','#36B022','#FFBE00', '#c23531','#0032C6','#9C27B0','#36B022','#FFBE00'];
+                    var colors = resp.barColors.concat(resp.barColors);
 
                     var series = [];
                     for(var i = 0, legendLength = legend.length; i < legendLength; i++){

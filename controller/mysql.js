@@ -167,7 +167,8 @@ module.exports = {
                 legend_en: constants.COMPARISON_CHART_LEGEND_EN,
                 xAxis: constants.ALL_MONTHS,
                 data17: rows17,
-                data18: rows18
+                data18: rows18,
+                barColors: constants.BAR_COLORS
             }
         });
     },
