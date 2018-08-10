@@ -151,15 +151,20 @@ module.exports = {
         let officeId = ctx.request.query.officeId,
             year = ctx.request.query.year;
 
-        let rows17 = await costService.getCostDataByOfficeYear(officeId, 2017);
-        let rows18 = await costService.getCostDataByOfficeYear(officeId, 2018);
+        /*let rows17 = await costService.getCostDataByOfficeYear(officeId, 2017);
+        let rows18 = await costService.getCostDataByOfficeYear(officeId, 2018);*/
+
+        let rows17 = await costService.getCostDataAndConsumableByOfficeYear(officeId, 2017);
+        let rows18 = await costService.getCostDataAndConsumableByOfficeYear(officeId, 2018);
 
         await ctx.send({
             status: "200",
             msg: 'success',
             data: {
-                legend: constants.COST_TYPE_ARRAY,
-                legend_en: constants.COST_TYPE_COL_NAME_ARRAY,
+                /*legend: constants.COST_TYPE_ARRAY,
+                legend_en: constants.COST_TYPE_COL_NAME_ARRAY,*/
+                legend: constants.COMPARISON_CHART_LEGEND,
+                legend_en: constants.COMPARISON_CHART_LEGEND_EN,
                 xAxis: constants.ALL_MONTHS,
                 data17: rows17,
                 data18: rows18

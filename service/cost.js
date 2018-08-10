@@ -7,6 +7,18 @@ module.exports = {
 
         return rows;
     },
+    getCostDataAndConsumableByOfficeYear: async (officeId, year) => {
+        let sql = 'SELECT ' +
+            'a.year, a.month, a.total_cost, a.labour_cost, a.administrative_cost, a.depreciation_cost, (a.variable_cost - b.consumable) AS variable_cost, ' +
+            'b.consumable ' +
+            'FROM pg_cost a, pg_variable_cost_details b ' +
+            'WHERE a.id = b.cost_id ' +
+            'AND office_id = ? AND year = ? ' +
+            'ORDER BY a.month ASC;';
+        let [rows] = await pool.query(sql, [officeId, year]);
+
+        return rows;
+    },
     getCostDataByOfficeYearMonth: async (officeId, year, month) =>{
         let [rows] = await pool.query('SELECT * FROM pg_cost WHERE year = ? AND month = ? AND office_id = ?', [year, month, officeId]);
 

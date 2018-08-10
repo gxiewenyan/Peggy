@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>同期成本对比</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
 
@@ -64,7 +64,7 @@
                     }
                     var legend = legend17.concat(legend18);
                     var legend_en = resp.legend_en.concat(resp.legend_en);
-                    var colors = ['#c23531','#2f4554','#9C27B0', '#36B022','#c23531','#2f4554','#9C27B0', '#36B022'];
+                    var colors = ['#c23531','#0032C6','#9C27B0','#36B022','#F0FF2E', '#c23531','#0032C6','#9C27B0','#36B022','#F0FF2E'];
 
                     var series = [];
                     for(var i = 0, legendLength = legend.length; i < legendLength; i++){
@@ -76,7 +76,7 @@
                             stack: is17 ? 'stack17' : 'stack18',
                             itemStyle: {
                                 color: colors[i],
-                                opacity: is17 ? '.3' :'1'
+                                opacity: is17 ? '.5' :'1'
                             },
                             data: []
                         });
@@ -103,6 +103,9 @@
                             s.data.push(d18[s.name_en]);
                         }
                     }
+
+                    console.log(series);
+
 
                     var option = {
                         title: {
