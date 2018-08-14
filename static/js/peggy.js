@@ -15,6 +15,8 @@ var peggy = {
                     if(opt.success && $.isFunction(opt.success)){
                         opt.success(data);
                     }
+                }else{
+                    alert(data.msg);
                 }
             },
             error: function(){
