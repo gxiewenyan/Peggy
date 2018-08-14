@@ -2,6 +2,7 @@ const router = require('koa-router')();
 const HomeController = require('./controller/home');
 const ExcelController = require('./controller/excel');
 const MysqlController = require('./controller/mysql');
+const UserController = require('./controller/user');
 
 module.exports = (app) => {
     router.get('/', HomeController.index);
@@ -43,6 +44,9 @@ module.exports = (app) => {
     router.get('/costDetails/:costId', MysqlController.costDetailsHandler);
 
     /*  ------------- 图表页 ------------- */
+    // 登录页面
+    router.get('/login', UserController.loginHandler);
+
     // 堆叠柱状图页面
     router.get('/stackedBar', MysqlController.stakedBarByOfficeHandler);
 
@@ -51,6 +55,8 @@ module.exports = (app) => {
 
 
     /*  ------------- 接口 ------------- */
+    // 登录
+    router.post('/login', UserController.loginInterface);
     // 获取堆叠柱状图数据
     router.get('/getAnnualCostDataByOfficeId', MysqlController.stackedBarByOfficeInterface);
 
