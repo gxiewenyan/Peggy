@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label for="userNameInput">用户名</label>
+            <input type="text" class="form-control" id="userNameInput" placeholder="请输入用户名">
+        </div>
+        <div class="form-group">
+            <label for="passwordInput">密码</label>
+            <input type="password" class="form-control" id="passwordInput" placeholder="请输入密码">
+        </div>
+        <button type="button" class="btn btn-primary btn-block mt-3" id="loginButton">登录</button>
+    </form>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" id="alertModalBody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/peggy.js"></script>
+<script src="/js/md5.min.js"></script>
+<script>
+    (function(){
+        $('#loginButton').on('click', function(){
+            var userName = $('#userNameInput').val();
+            var password = $('#passwordInput').val();
+
+            var alertModal = $('#alertModal');
+            var alertModalBody = $('#alertModalBody');
+            if(userName.replace(/\s/g, '').length <= 0){
+                alertModalBody.html('请输入用户名');
+                alertModal.modal('show');
+                return;
+            }
+
+            if(password.replace(/\s/g, '').length <= 0){
+                alertModalBody.html('请输入密码');
+                alertModal.modal('show');
+                return;
+            }
+
+            peggy.ajax({
+                url: '/login',
+                type: 'POST',
+                data: {
+                    userName: userName,
+                    password: md5(password)
+                },
+                success: function (data) {
+                    console.log(data);
+                    location.href = '/';
+                }
+            });
+        });
+    })()
+</script>
+</html>
