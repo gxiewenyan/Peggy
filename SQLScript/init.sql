@@ -135,6 +135,20 @@ CREATE TABLE `pg_variable_cost_details` (
   CONSTRAINT `variable_cost_id` FOREIGN KEY (`cost_id`) REFERENCES `pg_cost` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- -----------------------------------------------------
+-- Table `Peggy`.`pg_users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Peggy`.`pg_users` ;
+
+CREATE TABLE IF NOT EXISTS `Peggy`.`pg_users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(255) NOT NULL COMMENT '用户名',
+  `password` VARCHAR(45) NOT NULL COMMENT '密码',
+  `note` VARCHAR(255) NULL COMMENT '备注',
+  `last_login` DATETIME NOT NULL COMMENT '上次登录时间',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);
+
 /*Data for the table `pg_variable_cost_details` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
