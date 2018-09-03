@@ -6,5 +6,7 @@ module.exports = {
     COMPARISON_CHART_LEGEND: ['人工成本', '办公费', '折旧费', '可变动成本', '低值易耗品摊销'],
     COMPARISON_CHART_LEGEND_EN: ['labour_cost', 'administrative_cost', 'depreciation_cost', 'variable_cost', 'consumable'],
     BAR_COLORS: ['#c23531','#0032C6','#9C27B0','#36B022','#FFBE00'],
-    SECRET: 'SECRETsecret'
+    SECRET: 'SECRETsecret',
+    LOGIN_EXPIRE_STATUS_CODE: '401',
+    SUCCESS_STATUS_CODE: '200'
 };

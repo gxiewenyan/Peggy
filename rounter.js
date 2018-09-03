@@ -25,33 +25,30 @@ module.exports = (app) => {
     router.get('/xls', ExcelController.parse);
 
     // 上传页面
-    router.get('/upload', ExcelController.upload);
+    router.get('/p/upload', ExcelController.upload);
 
     // 上传表单提交
     router.post('/upload', ExcelController.uploadHandler);
 
     // 数据录入页面
-    router.get('/dataInput', MysqlController.dataInputPageHandler);
-
-    // 接受提交数据
-    router.post('/dataSubmit', MysqlController.submitDataHandler);
+    router.get('/p/dataInput', MysqlController.dataInputPageHandler);
 
     // 已录数据页面
-    router.get('/submittedData', MysqlController.submitedDataHandler);
-    router.post('/submittedData', MysqlController.submitedDataHandler);
+    router.get('/p/submittedData', MysqlController.submittedDataPageHandler);
+    router.get('/a/getSubmittedData', MysqlController.submittedDataInterface);
 
     // 成本详情页面
-    router.get('/costDetails/:costId', MysqlController.costDetailsHandler);
+    router.get('/p/costDetails/:costId/:isShowNav', MysqlController.costDetailsHandler);
 
     /*  ------------- 图表页 ------------- */
     // 登录页面
-    router.get('/login', UserController.loginHandler);
+    router.get('/p/login', UserController.loginHandler);
 
     // 堆叠柱状图页面
-    router.get('/stackedBar', MysqlController.stakedBarByOfficeHandler);
+    router.get('/p/stackedBar', MysqlController.stakedBarByOfficeHandler);
 
     // 成本一览表页面
-    router.get('/costList', MysqlController.costListHandler);
+    router.get('/p/costList', MysqlController.costListHandler);
 
 
     /*  ------------- 接口 ------------- */
@@ -65,6 +62,12 @@ module.exports = (app) => {
 
     // 获取成本数据
     router.get('/getCostData', MysqlController.costDataInterface);
+
+    // 获取成本详情
+    router.get('/a/getCostDetails', MysqlController.costDetailsInterface);
+
+    // 提交数据
+    router.post('/a/submitData', MysqlController.submitDataInterface);
 
     app.use(router.routes())
         .use(router.allowedMethods())

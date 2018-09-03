@@ -13,8 +13,7 @@
 <body>
 <div class="container">
 {{> nav }}
-
-<form class="form-inline mb-3" method="post" action="submittedData">
+<form class="form-inline mb-3">
     <label class="my-1 mr-2" for="year_select">年份</label>
     <select class="custom-select mr-4" id="year_select" name="year">
         <option value="-1">全部</option>
@@ -50,7 +49,7 @@
 
     <input type="hidden" name="pageNum" value="1">
 
-    <button type="submit" class="btn btn-primary my-1" id="search_btn">查询</button>
+    <button type="button" class="btn btn-primary my-1" id="search_btn">查询</button>
 </form>
 
 <table class="table table-striped" id="costDataTable">
@@ -68,38 +67,12 @@
     </tr>
     </thead>
     <tbody id="costDataTableBody">
-    {{#each cost}}
-    <tr>
-        <td>{{year}}</td>
-        <td>{{month}}</td>
-        <td>{{name}}</td>
-        <td>{{total_cost}}</td>
-        <td>{{labour_cost}}</td>
-        <td>{{administrative_cost}}</td>
-        <td>{{depreciation_cost}}</td>
-        <td>{{variable_cost}}</td>
-        <td>
-            <a href="/costDetails/{{id}}" class="btn btn-primary btn-sm">查看详细</a>
-        </td>
-    </tr>
-    {{/each}}
     </tbody>
 </table>
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end" id="paginationContainer">
-        {{#each pages}}
-        <li class="page-item {{clazz}}" page-num="{{number}}"><a class="page-link" href="javascript:void(0);">{{number}}</a></li>
-        {{/each}}
     </ul>
-    {{#with queryParams}}
-    <form class="form-inline mb-3" method="post" action="submittedData" id="form">
-        <input type="hidden" name="officeId" value="{{officeId}}">
-        <input type="hidden" name="year" value="{{year}}">
-        <input type="hidden" name="month" value="{{month}}">
-        <input type="hidden" name="pageNum" value="" id="pageNumInput">
-    </form>
-    {{/with}}
 </nav>
 </div>
 </body>
@@ -108,16 +81,66 @@
 <script src="/js/peggy.js"></script>
 <script>
     (function(){
-        {{#with queryParams}}
-        $('#year_select').val({{year}});
-        $('#month_select').val({{month}});
-        $('#office_select').val({{officeId}});
-        {{/with}}
+        var isNewQuery = true;
 
-        $('.inactive', '#paginationContainer').on('click', function(){
+        var getSubmittedData = function(pageNum, ele){
+            peggy.ajax({
+                url: '../a/getSubmittedData',
+                data: {
+                    officeId: $('#office_select').val(),
+                    year: $('#year_select').val(),
+                    month: $('#month_select').val(),
+                    pageNum: pageNum
+                },
+                success: function (data) {
+                    var costs = data.data.costs;
+                    var rdHtml = '';
+                    for(var i = 0, costsLength = costs.length; i < costsLength; i++){
+                        var cost = costs[i];
+
+                        rdHtml += '<tr>' +
+                                    '<td>' + cost.year + '</td>' +
+                                    '<td>' + cost.month + '</td>' +
+                                    '<td>' + cost.name + '</td>' +
+                                    '<td>' + cost.total_cost + '</td>' +
+                                    '<td>' + cost.labour_cost + '</td>' +
+                                    '<td>' + cost.administrative_cost + '</td>' +
+                                    '<td>' + cost.depreciation_cost + '</td>' +
+                                    '<td>' + cost.variable_cost + '</td>' +
+                                    '<td>' +
+                                        '<a href="/p/costDetails/' + cost.id + '/0" class="btn btn-primary btn-sm" target="_blank">查看详细</a>' +
+                                    '</td>' +
+                                '</tr>';
+                    }
+                    $('#costDataTableBody').html(rdHtml);
+
+                    if(isNewQuery){
+                        var pages = data.data.pages;
+                        var pageLiHtml = '';
+                        for(var j = 0, pageLength = pages.length; j < pageLength; j++){
+                            var page = pages[j];
+                            var clazz = j == 0 ? 'active' : 'inactive';
+                            pageLiHtml += '<li class="page-item ' + clazz + '" page-num="' + page.number +'"><a class="page-link" href="javascript:void(0);">' + page.number + '</a></li>';
+                        }
+                        $('#paginationContainer').html(pageLiHtml);
+                    }else{
+                        $('.active').removeClass('active').addClass('inactive');
+                        ele.addClass('active');
+                    }
+                }
+            })
+        };
+
+        $('#search_btn').on('click', function(){
+            isNewQuery = true;
+            getSubmittedData(1);
+        });
+
+        $('#paginationContainer').on('click', '.inactive', function(){
+            isNewQuery = false;
+
             var self = $(this);
-            $('#pageNumInput').val(self.attr('page-num'));
-            $('#form').submit();
+            getSubmittedData(self.attr('page-num'), self);
         });
     })()
 </script>

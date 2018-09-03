@@ -7,7 +7,7 @@ module.exports = {
         let offices = await officeService.getAllOffices();
         await ctx.render('data_input', offices);
     },
-    submitDataHandler: async (ctx, next) => {
+    submitDataInterface: async (ctx, next) => {
         let {
             year,
             month,
@@ -115,9 +115,10 @@ module.exports = {
             other: variable_cost_other
         };
 
+        let costId;
         if(rows.length > 0){  // 记录已存在，更新
             await costService.updateCostByOfficeYearMonth(pgCost, office_id, year, month);
-            let costId = await costService.getCostIdByYearMonth(year, month);
+            costId = await costService.getCostIdByYearMonth(year, month);
 
             await costService.updateLabourCostDetailsByCostId(pgLabourCostDetails, costId);
             await costService.updateAdminCostDetailsByCostId(pgAdminCostDetails, costId);
@@ -125,7 +126,7 @@ module.exports = {
 
         } else {  // 记录不存在，新增
             let result = await costService.addCost(pgCost);
-            let costId = result[0].insertId;
+            costId = result[0].insertId;
             // affectedRows
 
             pgLabourCostDetails.cost_id = costId;
@@ -138,9 +139,13 @@ module.exports = {
 
         }
 
-        let inputResult = await costService.getAllCostDataByOfficeYearMonth(office_id, year, month);
-
-        await ctx.render('data_input_result', inputResult[0]);
+        await ctx.send({
+            status: constants.SUCCESS_STATUS_CODE,
+            msg: 'success',
+            data: {
+                costId: costId
+            }
+        });
     },
     stakedBarByOfficeHandler: async (ctx, next) => {
         let offices = await officeService.getAllOffices();
@@ -195,21 +200,19 @@ module.exports = {
             }
         });
     },
-    submitedDataHandler: async (ctx, next) => {
-        let officeId = '-1',
-            year = '-1',
-            month = '-1';
+    submittedDataPageHandler: async (ctx, next) => {
+        let offices = await officeService.getAllOffices();
 
-        if(ctx.request && ctx.request.body){
-            officeId = ctx.request.body.officeId || '-1';
-            year = ctx.request.body.year || '-1';
-            month = ctx.request.body.month || '-1';
-            pageNum = ctx.request.body.pageNum || 1;
-        }
+        await ctx.render('submitted_data', {offices: offices});
+    },
+    submittedDataInterface: async (ctx, next) => {
+        let officeId = ctx.query.officeId || '-1',
+            year = ctx.query.year || '-1',
+            month = ctx.query.month || '-1',
+            pageNum = ctx.query.pageNum || 1;
 
         let start = (pageNum - 1) * constants.PAGE_SIZE;
 
-        let offices = await officeService.getAllOffices();
         let rows = await costService.getCostDataByOfficeYearMonthPage(officeId, year, month, start);
         let rowCount = await costService.getCostDataRowCountByOfficeYearMonth(officeId, year, month);
 
@@ -222,17 +225,14 @@ module.exports = {
             });
         }
 
-        let renderData = {
-            offices: offices,
-            cost: rows,
-            pages: pageArray,
-            queryParams: {
-                officeId: officeId,
-                year: year,
-                month: month
+        await ctx.send({
+            status: constants.SUCCESS_STATUS_CODE,
+            msg: 'success',
+            data: {
+                costs: rows,
+                pages: pageArray
             }
-        };
-        await ctx.render('submitted_data', renderData);
+        });
     },
     costDataInterface: async (ctx, next) => {
         let officeId = ctx.request.query.officeId,
@@ -258,10 +258,22 @@ module.exports = {
         });
     },
     costDetailsHandler: async (ctx, next) => {
-        let costId = ctx.params.costId;
+        let costId = ctx.params.costId,
+            isShowNav = parseInt(ctx.params.isShowNav);
+
+        await ctx.render('cost_details', {costId: costId, isShowNav: !!isShowNav});
+    },
+    costDetailsInterface: async (ctx, next) => {
+        let costId = ctx.request.query.costId;
 
         let costDetails = await costService.getCostDetailsByCostId(costId);
 
-        await ctx.render('cost_details', costDetails[0]);
+        await ctx.send({
+            status: constants.SUCCESS_STATUS_CODE,
+            msg: 'success',
+            data: {
+                costDetails: costDetails[0]
+            }
+        });
     }
 };

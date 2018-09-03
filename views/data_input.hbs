@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     {{> nav }}
-    <form action="dataSubmit" method="POST">
+    <form action="../a/submitData" method="POST" id="form">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputState">科室</label>
@@ -361,6 +361,7 @@
 </div>
 </body>
 <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery.form.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script>
     (function(){
@@ -383,6 +384,26 @@
 
             totalDisplayEle.html(totalVal);
             totalHiddenInput.val(totalVal);
+        });
+
+        $('#form').ajaxForm({
+            headers: {
+                "Authorization": sessionStorage.getItem('token')
+            },
+            success: function (data) {
+                if(data.status == 200){
+                    alert('录入成功！');
+
+                    location.href = 'costDetails/' + data.data.costId + '/1';
+                }else {
+                    alert(data.msg);
+
+                    if(data.status == 401) {
+                        location.href = '/p/login';
+                    }
+                }
+
+            }
         });
 
     })()

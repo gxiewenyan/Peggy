@@ -1,26 +1,34 @@
 var peggy = {
     ajax: function(opt){
         var ajaxOpt = $.extend({
-            type: 'get',
+            method: 'GET',
             dataType: 'json'
         }, opt);
 
         $.ajax({
-            url: opt.url,
-            type: opt.type,
-            dataType: opt.dataType,
-            data: opt.data,
+            url: ajaxOpt.url,
+            method: ajaxOpt.method,
+            dataType: ajaxOpt.dataType,
+            data: ajaxOpt.data,
             success: function(data){
                 if(data.status == 200){
-                    if(opt.success && $.isFunction(opt.success)){
-                        opt.success(data);
+                    if(ajaxOpt.success && $.isFunction(ajaxOpt.success)){
+                        ajaxOpt.success(data);
                     }
-                }else{
+                }else {
                     alert(data.msg);
+
+                    if(data.status == 401) {
+                        location.href = '/p/login';
+                    }
                 }
             },
             error: function(){
                 alert('出错了...');
+            },
+            beforeSend: function(xhr) {
+                var token = sessionStorage.getItem('token');
+                xhr.setRequestHeader("Authorization", token);
             }
         });
     }

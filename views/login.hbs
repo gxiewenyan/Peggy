@@ -65,13 +65,14 @@
 
             peggy.ajax({
                 url: '/login',
-                type: 'POST',
+                method: 'POST',
                 data: {
                     userName: userName,
                     password: md5(password)
                 },
                 success: function (data) {
                     console.log(data);
+                    sessionStorage.setItem('token', data.data.token);
                     location.href = '/';
                 }
             });

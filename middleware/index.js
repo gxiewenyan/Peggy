@@ -4,8 +4,11 @@ const staticFiles = require('koa-static');
 const views = require('koa-views');
 const returnJSON = require('./returnJSON');
 const koaBody = require('koa-body');
+const auth = require('./auth');
 
 module.exports = (app) => {
+    app.use(auth());
+
     // 指定 static 目录为静态资源目录，用来存放 js css /koa2/images 等
     app.use(staticFiles(path.resolve(__dirname, "../static")));
 

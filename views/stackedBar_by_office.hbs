@@ -32,13 +32,14 @@
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/echarts.common.min.js"></script>
+<script src="/js/peggy.js"></script>
 <script>
     (function(){
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('chart_container'));
 
         $('#search_btn').on('click', function(){
-            $.ajax({
+            peggy.ajax({
                 url: '/getAnnualCostDataByOfficeId',
                 data: {
                     officeId: $('#offices_select').val()
