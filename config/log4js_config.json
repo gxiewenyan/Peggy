@@ -1,0 +1,27 @@
+{
+  "appenders": {
+    "sql": {
+      "type": "dateFile",
+      "filename": "./logs/sql.log",
+      "pattern": ".yyyy-MM-dd",
+      "category": "sql"
+    },
+    "logger": {
+      "type": "dateFile",
+      "filename": "./logs/log.log",
+      "pattern": ".yyyy-MM-dd",
+      "category": "logger"
+    }
+  },
+  "categories": {
+    "default": { "appenders": ["sql", "logger"], "level": "ALL" },
+    "sql": {
+      "appenders": ["sql"],
+      "level": "ALL"
+    },
+    "logger": {
+      "appenders": ["logger"],
+      "level": "ALL"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 const pool = require('./pool');
 const constants = require('../constants');
+const logUtil = require('../util/logger');
 
 module.exports = {
     getCostDataByOfficeYear: async (officeId, year) => {
@@ -16,6 +17,8 @@ module.exports = {
             'AND office_id = ? AND year = ? ' +
             'ORDER BY a.month ASC;';
         let [rows] = await pool.query(sql, [officeId, year]);
+
+        logUtil.sqlTrace('getCostDataAndConsumableByOfficeYear', sql, [officeId, year]);
 
         return rows;
     },
@@ -191,7 +194,10 @@ module.exports = {
         return rows;
     },
     addCost: async (cost) => {
-        let result = await pool.query('INSERT INTO pg_cost SET ?', cost);
+        let queryStatement = 'INSERT INTO pg_cost SET ?';
+        let result = await pool.query(queryStatement, cost);
+
+        logUtil.sqlTrace('addCost', queryStatement, [cost]);
 
         return result;
     },
@@ -211,7 +217,10 @@ module.exports = {
         return result;
     },
     updateCostByOfficeYearMonth: async (cost, officeId, year, month) => {
-        let result = pool.query('UPDATE pg_cost SET ? WHERE office_id = ? AND year = ? AND month = ?', [cost, officeId, year, month]);
+        let queryStatement = 'UPDATE pg_cost SET ? WHERE office_id = ? AND year = ? AND month = ?';
+        let result = pool.query(queryStatement, [cost, officeId, year, month]);
+
+        logUtil.sqlTrace('updateCostByOfficeYearMonth', queryStatement, [cost, officeId, year, month]);
 
         return result;
     },
